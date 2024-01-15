@@ -6,6 +6,7 @@
         <li><router-link to="/profile">Profile</router-link></li>
         <li><router-link to="/home">Post Data</router-link></li>
         <li><router-link to="/get-blog">Get Data</router-link></li>
+        <li><router-link to="/shop">Shop</router-link></li>
       </ul>
     </div>
   </div>

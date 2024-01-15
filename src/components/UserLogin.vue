@@ -1,53 +1,78 @@
 <template>
-    <ul>
-        <li v-for="e in errors" v-bind:key="e.id">{{ e }}</li>
-    </ul>
+    <Carousel :autoplay="2000">
+      <Slide v-for="slide in details" :key="slide">
+        <div class="carousel__item"><img :src="slide"></div>
+      </Slide>
   
-    <form @submit="postData">
-    <input type="email" v-model="data.email" name="email"><br>
-    <input type="password" v-model="data.password" name="password"><br>
-    <button type="submit">Submit </button>
-    </form>
-</template>
-
-<script>
-import axios from 'axios';
-
-export default {
-    name:"user-Login",
+      <template #addons>
+        <Navigation />
+        <Pagination />
+      </template>
+    </Carousel>
+  </template>
+  
+  <script>
+  import axios from 'axios'
+  import { defineComponent } from 'vue'
+  import { Carousel, Navigation, Pagination, Slide } from 'vue3-carousel'
+  
+  import 'vue3-carousel/dist/carousel.css'
+  
+  export default defineComponent({
+    name: 'user-login',
+    components: {
+      Carousel,
+      Slide,
+      Pagination,
+      Navigation,
+    },
     data(){
-        return {
-            errors:"",
-            data:{
-                email:"",
-                password:"",
-                role:2,
-                fcm_token:"1wewfert3453rrfe544feee"
-            }
-        }
+       return{
+        url:process.env.VUE_APP_TEST_PATH,
+        details:"",
+        qty:1,
+       }
+    },
+    mounted(){
+        this.getDetail()
     },
     methods:{
-        postData(e){
-            e.preventDefault()
-            
-                axios.post("https://layajee.cherryberrycloud.com/api/login",this.data).then((res)=>{
-                    if(res.data.status == 400){
-                        let erro = res.data.message
-                        let d = erro.split('. ')
-                        this.errors = d
+        getDetail(){
+            axios.get(this.url+'products/1')
+            .then((res)=>{
+                console.log(res.data)
+                this.details = res.data.images
 
-                    }
-                    localStorage.setItem("token", res.data.token)
-            }).catch((err)=>{
+            })
+            .catch((err)=>{
                 console.log(err)
             })
-            
         }
     }
-}
-</script>
-
-<style>
-
-
-</style>
+  })
+  </script>
+  
+  <style>
+  .carousel__item {
+    min-height: 200px;
+    width: 100%;
+    background-color: var(--vc-clr-primary);
+    color: var(--vc-clr-white);
+    font-size: 20px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .carousel__slide {
+    padding: 10px;
+  }
+  
+  .carousel__prev,
+  .carousel__next {
+    box-sizing: content-box;
+    border: 5px solid white;
+  }
+  </style>
+  

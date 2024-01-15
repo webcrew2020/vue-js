@@ -16,6 +16,7 @@ export default{
     name:"GetBlog",
     data(){
         return{
+            url:process.env.VUE_APP_BASIC_PATH,
             list:undefined
         }
     },
@@ -24,7 +25,7 @@ export default{
     },
     methods:{
         async getDataBlog(){
-            await axios.get('http://localhost:8000/api/get').then((res)=>{
+            await axios.get(this.url+'get').then((res)=>{
             this.list = res.data
         }).catch((err)=>{
             console.log(err)
@@ -32,7 +33,7 @@ export default{
         },
         // =========================== //
         async blogDel(itemId){
-        await axios.post('http://localhost:8000/api/del/'+`${itemId}`).then((res)=>{
+        await axios.post(this.url+'del/'+`${itemId}`).then((res)=>{
           if(res.data.success == false){
             let e = res.data.message //e => error
             let d = e.split('|') // d => data

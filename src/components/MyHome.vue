@@ -36,6 +36,7 @@ import axios from 'axios';
 ];
 
         return { 
+          url:process.env.VUE_APP_BASIC_PATH,
             errors:"",    
           options: {
                 debug: 'info',
@@ -54,7 +55,7 @@ import axios from 'axios';
     },
     methods:{
         saveData(){
-        axios.post('http://localhost:8000/api/save', this.form).then((res)=>{
+        axios.post(this.url+'save', this.form).then((res)=>{
           if(res.data.success == false){
             let e = res.data.message //e => error
             let d = e.split('|') // d => data

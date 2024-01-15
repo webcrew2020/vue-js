@@ -30,6 +30,7 @@
             ];
             
             return { 
+              url:process.env.VUE_APP_BASIC_PATH,
                 errors:"",    
                 options: {
                         debug: 'info',
@@ -48,13 +49,13 @@
         },
        async mounted() {
             const id = this.$route.params.id;
-            let result = await axios.get('http://localhost:8000/api/get/'+id)
+            let result = await axios.get(this.url+'get/'+id)
            this.form = result.data.data
         },
         methods:{
         updateData(){
         const id = this.$route.params.id;
-        axios.put('http://localhost:8000/api/update/'+id, this.form).then((res)=>{
+        axios.put(this.url+'update/'+id, this.form).then((res)=>{
           if(res.data.success == false){
             let e = res.data.message //e => error
             let d = e.split('|') // d => data

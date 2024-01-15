@@ -12,12 +12,13 @@ export default{
     name:"blogDetailsPage",
     data(){
         return{
+            url:process.env.VUE_APP_BASIC_PATH,
             result:""
         }
     },
     async mounted(){
         const id = this.$route.params.id;
-            let detail = await axios.get('http://localhost:8000/api/get/'+id)
+            let detail = await axios.get(this.url+'get/'+id)
             this.result = detail.data.data
     }
 }
